@@ -1,0 +1,42 @@
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+.Python
+env/
+venv/
+.venv/
+*.egg-info/
+dist/
+build/
+*.egg
+.eggs/
+*.manifest
+*.spec
+
+# Logs
+*.log
+pip-log.txt
+pip-delete-this-directory.txt
+
+# Django
+*.sqlite3
+db.sqlite3
+local_settings.py
+.env
+.env.*
+
+# Media
+media/
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+.DS_Store
+Thumbs.db
+
+# Other
+(14) Leonardo Matias _ LinkedIn.html
+(14) Leonardo Matias _ LinkedIn_files/

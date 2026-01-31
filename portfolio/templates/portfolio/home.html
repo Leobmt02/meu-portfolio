@@ -1,0 +1,219 @@
+{% extends 'portfolio/base.html' %}
+
+{% block content %}
+
+<!-- Hero Section -->
+<section id="hero" class="hero-section">
+    <div class="container hero-container">
+        <div class="hero-content">
+            <p class="hero-greeting fade-in-up">👋 Olá, eu sou</p>
+            <h1 class="fade-in-up delay-1">{{ profile.name }}</h1>
+            <h2 class="fade-in-up delay-2 type-effect">{{ profile.headline }}</h2>
+            <p class="hero-bio fade-in-up delay-3">{{ profile.bio }}</p>
+            <div class="hero-btns fade-in-up delay-4">
+                <a href="#projects" class="btn-primary">
+                    <i class="fa-solid fa-code-branch"></i> Ver Projetos
+                </a>
+                <a href="#contact" class="btn-secondary">
+                    <i class="fa-regular fa-envelope"></i> Contato
+                </a>
+            </div>
+        </div>
+        <div class="hero-visual fade-in-up delay-2">
+            <div class="code-block">
+                <div class="code-header">
+                    <span class="dot red"></span>
+                    <span class="dot yellow"></span>
+                    <span class="dot green"></span>
+                </div>
+                <pre><code><span class="keyword">class</span> <span class="class-name">DataAnalyst</span>:
+    <span class="keyword">def</span> <span class="function">__init__</span>(<span class="self">self</span>):
+        <span class="self">self</span>.name = <span class="string">"Leonardo"</span>
+        <span class="self">self</span>.skills = [
+            <span class="string">"Python"</span>, <span class="string">"SQL"</span>,
+            <span class="string">"Power BI"</span>, <span class="string">"AutoML"</span>
+        ]
+    
+    <span class="keyword">def</span> <span class="function">solve_problem</span>(<span class="self">self</span>, data):
+        <span class="keyword">return</span> insights</code></pre>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section id="skills" class="section">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Tech Stack</h2>
+            <p class="section-subtitle">Minhas ferramentas de análise e desenvolvimento</p>
+        </div>
+        <div class="skills-grid">
+            {% for skill in skills %}
+            <div class="skill-card">
+                <div class="icon-box">
+                    <i class="{{ skill.icon }}"></i>
+                </div>
+                <h3>{{ skill.name }}</h3>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Certifications Section -->
+<section id="certifications" class="section bg-dim">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Certificações</h2>
+            <p class="section-subtitle">Cursos e certificações que complementam minha formação</p>
+        </div>
+        <div class="certifications-grid">
+            {% for cert in certifications %}
+            <div class="certification-card card-hover">
+                <div class="cert-icon">
+                    <i class="{{ cert.icon }}"></i>
+                </div>
+                <div class="cert-content">
+                    <h3>{{ cert.name }}</h3>
+                    <p class="cert-issuer"><i class="fa-regular fa-building"></i> {{ cert.issuer }}</p>
+                    <p class="cert-date"><i class="fa-regular fa-calendar"></i> {{ cert.date }}</p>
+                    {% if cert.certificate_url %}
+                    <a href="{{ cert.certificate_url }}" target="_blank" class="cert-link">
+                        <i class="fa-solid fa-arrow-up-right-from-square"></i> Ver Certificado
+                    </a>
+                    {% endif %}
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Projects Section -->
+<section id="projects" class="section">
+    <div class="container">
+        <h2 class="section-title text-center">Projetos em Destaque</h2>
+        <div class="projects-grid">
+            {% for project in projects %}
+            <div class="project-card {% if project.is_confidential %}confidential{% endif %}">
+                <div class="project-media">
+                    {% if project.media_type == 'image' %}
+                    <img src="{{ project.media_url }}" alt="{{ project.title }}" class="project-img">
+                    {% elif project.media_type == 'video' %}
+                    <video controls class="project-video">
+                        <source src="{{ project.media_url }}" type="video/mp4">
+                        Seu navegador não suporta vídeos.
+                    </video>
+                    {% elif project.media_type == 'embed' %}
+                    <div class="iframe-container">
+                        <iframe title="{{ project.title }}" width="600" height="373.5" src="{{ project.media_url }}"
+                            frameborder="0" allowFullScreen="true"></iframe>
+                    </div>
+                    {% elif project.media_type == 'confidential' %}
+                    <div class="project-confidential-placeholder">
+                        <i class="fa-solid fa-lock"></i>
+                        <span>Projeto Confidencial</span>
+                    </div>
+                    {% else %}
+                    <div class="project-placeholder">
+                        <i class="fa-regular fa-image"></i>
+                    </div>
+                    {% endif %}
+                </div>
+
+                <div class="project-content-wrapper">
+                    <div class="project-header">
+                        <i class="fa-regular fa-folder-open folder-icon"></i>
+                        {% if project.is_confidential %}
+                        <span class="nda-badge"><i class="fa-solid fa-shield-halved"></i> NDA</span>
+                        {% endif %}
+                    </div>
+                    <div class="project-body">
+                        <h3>{{ project.title }}</h3>
+                        {% if project.company %}
+                        <p class="project-company"><i class="fa-regular fa-building"></i> {{ project.company }}</p>
+                        {% endif %}
+                        <p>{{ project.description }}</p>
+                    </div>
+                    <div class="project-footer">
+                        {% for tag in project.tags %}
+                        <span class="tech-tag">{{ tag }}</span>
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Experience Section -->
+<section id="experience" class="section bg-dim">
+    <div class="container">
+        <h2 class="section-title text-center">Jornada Profissional</h2>
+        <div class="timeline">
+            {% for exp in experiences %}
+            <div class="timeline-item">
+                <div class="timeline-marker"></div>
+                <div class="timeline-content card-hover">
+                    <span class="date">{{ exp.period }}</span>
+                    <h3>{{ exp.role }}</h3>
+                    <h4 class="company-name"><i class="fa-regular fa-building"></i> {{ exp.company }}</h4>
+                    <p>{{ exp.description }}</p>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Education Section -->
+<section id="education" class="section">
+    <div class="container text-center">
+        <h2 class="section-title">Formação Acadêmica</h2>
+        <div class="education-card card-hover">
+            <i class="fa-solid fa-user-graduate edu-icon"></i>
+            {% for edu in education %}
+            <h3>{{ edu.degree }}</h3>
+            <p class="institution">{{ edu.institution }}</p>
+            <p class="period">{{ edu.period }}</p>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Languages Section -->
+<section id="languages" class="section bg-dim">
+    <div class="container">
+        <div class="section-header">
+            <h2 class="section-title">Idiomas</h2>
+        </div>
+        <div class="languages-grid">
+            {% for lang in languages %}
+            <div class="language-card card-hover">
+                <span class="lang-flag">{{ lang.icon }}</span>
+                <div class="lang-info">
+                    <h3>{{ lang.name }}</h3>
+                    <span class="lang-level">{{ lang.level }}</span>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+
+<!-- Contact Section -->
+<section id="contact" class="section text-center hero-section">
+    <div class="container">
+        <h2 class="section-title">Vamos construir algo junto?</h2>
+        <div class="contact-cta">
+            <a href="https://mail.google.com/mail/?view=cm&fs=1&to=l.bandeiramatias@gmail.com&su=Contato%20via%20Portfólio"
+                target="_blank" class="btn-primary big-btn">
+                <i class="fa-solid fa-paper-plane"></i> Dizer Oi
+            </a>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
